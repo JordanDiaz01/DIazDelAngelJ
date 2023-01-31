@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./jquery-3.6.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    
+    <button id="btnFetch">Fetch</button>
+    <img id="imagen">
+    <button id="btnAsyncAwait">AsyncAwait</button>
+    <button id="XmlHttpRequest">XmlHttpRequest</button>
+    <button id="btnJquery">jquery</button>
+    <button id="btnAxios">axios</button>
+
+
+
+
+
+    <script>
+        document.getElementById('btnFetch').addEventListener('click',()=>{
+            fetch('https://rickandmortyapi.com/api/character/128')
+                .then((res)=>res.json())
+                .then((data)=> {
+                    console.log(data)
+                    document.getElementById('imagen').src=data.image
+                })
+        })
+
+        document.getElementById('btnAsyncAwait').addEventListener('click',async()=>{
+            let res= await  fetch('https://rickandmortyapi.com/api/character/128')
+            let data = await res.json()
+            document.getElementById('imagen').src=data.image
+
+        })
+
+        document.getElementById('XmlHttpRequest').addEventListener('click',()=>{
+            const xhr = new XMLHttpRequest()
+            xhr.addEventListener('readystatechange',()=>{
+                if (this.readyState === this.DONE)
+                console.log(this.responseText)
+            })
+        })
+
+        document.getElementById('btnAxios').addEventListener('click',()=>{
+            axios.get('https://rickandmortyapi.com/api/character/128')
+            .then(res=>{
+                document.getElementById('imagen').src=res.data.image
+            })
+            
+
+        })
+    </script>
+</body>
+
+</html>
