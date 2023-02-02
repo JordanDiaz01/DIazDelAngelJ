@@ -11,13 +11,11 @@
 <body>
     
     <button id="btnFetch">Fetch</button>
-    <img id="imagen">
     <button id="btnAsyncAwait">AsyncAwait</button>
     <button id="XmlHttpRequest">XmlHttpRequest</button>
     <button id="btnJquery">jquery</button>
     <button id="btnAxios">axios</button>
-
-
+    <img id="imagen" style="display: block;">
 
 
 
@@ -39,19 +37,36 @@
         })
 
         document.getElementById('XmlHttpRequest').addEventListener('click',()=>{
+            //console.log('funciona')
             const xhr = new XMLHttpRequest()
-            xhr.addEventListener('readystatechange',()=>{
-                if (this.readyState === this.DONE)
-                console.log(this.responseText)
-            })
+            xhr.open('GET','https://rickandmortyapi.com/api/character/128')
+            xhr.onreadystatechange = ()=>{
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status ===200){
+                    let res = JSON.parse(xhr.responseText)
+                    document.getElementById('imagen').src=res.image
+                }
+            }
+            xhr.send()
         })
 
+        document.getElementById('btnJquery').addEventListener('click',()=>{
+            $.ajax({
+                type:'GET',
+                url: 'https://rickandmortyapi.com/api/character/128',
+                contentType: 'application/json',
+                async: true,
+                success: (data)=> {
+                    document.getElementById('imagen').src=data.image   
+                }
+            })
+        })
         document.getElementById('btnAxios').addEventListener('click',()=>{
             axios.get('https://rickandmortyapi.com/api/character/128')
             .then(res=>{
                 document.getElementById('imagen').src=res.data.image
             })
         })
+
     </script>
 </body>
 
