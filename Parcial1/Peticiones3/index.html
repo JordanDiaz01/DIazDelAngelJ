@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <select id="doglist"></select>
+    <button id="btnPedir">Pedir perro</button>
+    <div id="DogInfo"></div>
+    <script>
+        fetch('https://dogapi.dog/api/v2/breeds')
+            .then(res =>res.json())
+            .then(dogs => {
+                //console.log(dogs)
+                dogs.data.forEach(element => {
+                    
+                    let option = document.createElement('option')
+                    option.value=element.id
+                    option.text=element.attributes.name
+                    document.getElementById('doglist').appendChild(option)
+                });
+                });
+                document.getElementById('btnPedir').addEventListener('click',()=>{
+                let Dogselected = document.getElementById('doglist').value
+                let peticion = `https://dogapi.dog/api/v2/breeds/${Dogselected}`
+                fetch(peticion)
+                .then(res=>res.json())
+                .then(data => {
+                    document.getElementById('DogInfo').innerText=data.attributes.name
+                })
+            })
+    </script>
+</body>
+</html>
