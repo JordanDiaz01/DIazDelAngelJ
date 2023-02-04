@@ -14,7 +14,6 @@
         fetch('https://dogapi.dog/api/v2/breeds')
             .then(res =>res.json())
             .then(dogs => {
-                //console.log(dogs)
                 dogs.data.forEach(element => {
                     
                     let option = document.createElement('option')
@@ -28,8 +27,9 @@
                 let peticion = `https://dogapi.dog/api/v2/breeds/${Dogselected}`
                 fetch(peticion)
                 .then(res=>res.json())
-                .then(data => {
-                    document.getElementById('DogInfo').innerText=data.attributes.name
+                .then(({data:{attributes:{name}}}) => {
+                    console.log(name)
+                    document.getElementById('DogInfo').innerText=name
                 })
             })
     </script>
