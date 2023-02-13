@@ -5,7 +5,7 @@ const app  = express()
 app.use(express.json())
 app.get('/alumnos/:carrera',(req,res)=>{
     console.log(req.params.carrera)
-    res.json({alumnos:"Carrera de sistemmas de"+ req.params.carrera})
+    res.jsonp({alumnos:"Carrera de "+ req.params.carrera})
 })
 
 app.get('/maestros',(req,res)=>{

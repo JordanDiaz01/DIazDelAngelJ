@@ -7,8 +7,13 @@
     <title>Document</title>
 </head>
 <body>
+    
     <script>
-        fetch('http://localhost:8080/carrera/sistemas')
+        const mifuncion= (data) => console.log(data)
+        mifuncion()
+    </script>
+    <script src="http://localhost:8080/alumnos/sistemas/?callback=mifuncion">
+         fetch('')
             .then(res => console.log(res))
     </script>
 </body>
