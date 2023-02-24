@@ -30,6 +30,6 @@ app.get('/administrativos',(req,res)=>{
 app.use((req,res)=>{
     res.status(404).json({status:'Página no encontrada'})
 })
-app.listen(8080,()=>{
+app.listen(8082,()=>{
     console.log("Running...")
 })

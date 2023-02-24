@@ -10,19 +10,20 @@ app.use(express.text())
 
 
 
-app.get('/vuelo/',async(req,res)=>{
+app.get('/empleados/',async(req,res)=>{
     // console.log(req.params.carrera)
-     const connection = await mysql.createConnection({host:'localhost', user: 'root', database: 'basewebvuelo'});
+     const connection = await mysql.createConnection(
+        {host:'localhost', user: 'root', password: '1234',database: 'proyectoweb'});
   // query database
-    const [rows, fields] = await connection.execute('SELECT * FROM vuelo');
+    const [rows, fields] = await connection.execute('SELECT * FROM empleados');
     // res.jsonp({alumnos:'Peticion get a la ruta de alumnos '+req.params.carrera})
     res.json(rows);
 })
-app.get('/vuelo/:id',async(req,res)=>{
+app.get('/empleados/:nombre',async(req,res)=>{
     // console.log(req.params.carrera)
-     const connection = await mysql.createConnection({host:'localhost', user: 'root', database: 'basewebvuelo'});
+     const connection = await mysql.createConnection({host:'localhost', user: 'root', password: '1234',database: 'proyectoweb'});
   // query database
-    const [rows, fields] = await connection.execute('SELECT * FROM vuelo where id = ?',[req.params.id]);
+    const [rows, fields] = await connection.execute('SELECT * FROM empleados where nombre= ?',[req.params.nombre]);
     // res.jsonp({alumnos:'Peticion get a la ruta de alumnos '+req.params.carrera})
     if(rows.length==0){
         res.json("registro:No se encontro usuario")
@@ -31,10 +32,18 @@ app.get('/vuelo/:id',async(req,res)=>{
     res.json(rows);
 })
 
+app.post('/empleados',async(req,res)=>{
+    let query = `insert into empleados VALUES ${req.body.nombre} `
+})
+
+app.delete('empleados/:nombre',async()=>{
+    
+})
+
 app.use((req,res)=>{
     res.status(404).json({estado:"Ruta no encontrada"})
 })
 
-app.listen(8080,()=>{
+app.listen(8082,()=>{
     console.log("Running...")
 })
