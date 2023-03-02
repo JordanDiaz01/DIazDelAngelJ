@@ -8,8 +8,6 @@ const app = express()
 app.use(express.json())
 app.use(express.text())
 
-
-
 app.get('/empleados/',async(req,res)=>{
 
      const connection = await mysql.createConnection({host:'localhost', user: 'root', password: '1234',database: 'proyectoweb'});
@@ -36,7 +34,9 @@ app.post('/empleados',async(req,res)=>{
     const connection = await mysql.createConnection({host:'localhost', user: 'root', password: '1234',database: 'proyectoweb'});
     const {nombre,ap_paterno,ap_materno,edad,domicilio,ciudad,estado,codigo_postal,correo,curp,rfc} = req.body
     let query = `insert into empleados values ('${nombre}', '${ap_paterno}', '${ap_materno}', '${edad}', '${domicilio}', '${ciudad}',' ${estado}', '${codigo_postal}', '${correo}', '${curp}', '${rfc}')`
-    await connection.execute(query)
+    
+    const[rows, fields] = await connection.execute(query)
+    rows.affectedRows==1 ?  res.status(200).send('Empleado insertado con éxito!') : res.status(500).send('Ocurrió un error en el servidor')
     //await connection.query('insert into empleados SET ? ',{nombre,ap_paterno,ap_materno,edad,domicilio,ciudad,estado,codigo_postal,correo,curp,rfc})
 })
 
@@ -44,13 +44,15 @@ app.put('/empleados/:nombre',async(req,res)=>{
     const nombre= req.params.nombre
     const connection = await mysql.createConnection({host:'localhost', user: 'root', password: '1234',database: 'proyectoweb'});
     const {ap_paterno,ap_materno,edad,domicilio,ciudad,estado,codigo_postal,correo,curp,rfc} = req.body
-    await connection.query('update empleados set ? where nombre = ?',[{ap_paterno,ap_materno,edad,domicilio,ciudad,estado,codigo_postal,correo,curp,rfc},nombre])
+    const[rows, fields] = await connection.query('update empleados set ? where nombre = ?',[{ap_paterno,ap_materno,edad,domicilio,ciudad,estado,codigo_postal,correo,curp,rfc},nombre])
+
+    rows.affectedRows==1 ?  res.status(200).send('Empleado actualizado con éxito!') : res.status(500).send('Ocurrió un error en el servidor')
 })
 app.delete('/empleados/:nombre',async(req,res)=>{
     const nombre= req.params.nombre
     const connection = await mysql.createConnection({host:'localhost', user: 'root', password: '1234',database: 'proyectoweb'});
-    await connection.query('delete from empleados where nombre = ?',[nombre])
-    
+    const [rows,fields] = await connection.query('delete from empleados where nombre = ?',[nombre])
+    rows.affectedRows==1 ?  res.status(200).send('Empleado eliminado con éxito!') : res.status(500).send('Ocurrió un error en el servidor')
 })
 
 app.use((req,res)=>{
