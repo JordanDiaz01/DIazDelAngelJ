@@ -2,11 +2,13 @@ const express = require('express')
 const mysql = require('mysql2/promise')
 const fs = require('fs')
 const path = require('path')
+const cors = require('cors')
 const {dirname} = require('path')
 const app = express()
 
 app.use(express.json())
 app.use(express.text())
+app.use(cors())
 
 app.get('/empleados/',async(req,res)=>{
 
