@@ -36,8 +36,7 @@ let redocTheme_objeto = JSON.parse(apidef_string)
  *       properties:
  *         name:
  *           type: string
- *           description: Identificador del empleado    
- *           example: "jordan"
+ *           description: Identificador del empleado
  */
 
 
@@ -65,7 +64,7 @@ app.use(cors())
 
   /**
  * @swagger
- * /usuario:
+ * /empleados/:
  *  get:
  *    tags:
  *      - empleado
@@ -86,23 +85,21 @@ app.get('/empleados/',async(req,res)=>{
 
 /**
  * @swagger
- * /empleados/:nombre:
+ * /empleados/{nombre}:
  *  get:
  *    tags:
  *      - empleado
  *    summary: Busca un empleado por nombre
  *    description: Petición Get
  *    parameters:
- *      - name: nombre
- *        in: path
+ *      - in: path
+ *        name: nombre
  *        description: nombre del usuario a consultar
  *        required: true
- *        schema:
- *          type: string
- *          format: string
  *    responses:
  *      200:
  *        description: Regresa el empleado solicitado
+ *        type: json
  *      400:
  *        description: No se encontro el empleado
  */
@@ -113,7 +110,7 @@ app.get('/empleados/:nombre',async(req,res)=>{
     const [rows, fields] = await connection.execute('SELECT * FROM empleados where nombre= ?',[req.params.nombre]);
     
     if(rows.length==0){
-        res.json("registro:No se encontro usuario")
+        res.status(400).json("registro:No se encontro usuario")
     }
     else
     res.json(rows);
@@ -150,8 +147,8 @@ app.post('/empleados',async(req,res)=>{
 
 /**
  * @swagger
- * /empleados/:nombre:
- *  patch:
+ * /empleados/{nombre}:
+ *  put:
  *    tags:
  *      - empleado
  *    summary: Actualizar empleado
@@ -178,7 +175,7 @@ app.put('/empleados/:nombre',async(req,res)=>{
 
 /**
  * @swagger
- * /empleados/:nombre:
+ * /empleados/{nombre}:
  *   delete:
  *     tags:
  *       - empleado
