@@ -37,6 +37,36 @@ let redocTheme_objeto = JSON.parse(apidef_string)
  *         name:
  *           type: string
  *           description: Identificador del empleado
+ *         ap_paterno:
+ *           type: string
+ *           description: apellido paterno del empleado
+ *         ap_materno:
+ *           type: string
+ *           description: apellido materno  del empleado
+ *         edad:
+ *           type: string
+ *           description: edad del empleado
+ *         domicilio:
+ *           type: string
+ *           description: domicilio del empleado
+ *         ciudad:
+ *           type: string
+ *           description: ciudad del empleado
+ *         estado:
+ *           type: string
+ *           description: estado del empleado
+ *         codigo_postal:
+ *           type: string
+ *           description: codigo postal del empleado
+ *         correo:
+ *           type: string
+ *           description: correo del empleado
+ *         curp:
+ *           type: string
+ *           description: curp del empleado
+ *         rfc:
+ *           type: string
+ *           description: rfc del empleado
  */
 
 
