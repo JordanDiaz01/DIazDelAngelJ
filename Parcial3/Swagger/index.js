@@ -34,39 +34,93 @@ let redocTheme_objeto = JSON.parse(apidef_string)
  *     empleado: 
  *       type: object
  *       properties:
- *         name:
+ *         nombre:
  *           type: string
  *           description: Identificador del empleado
+ *           example: Jordan
  *         ap_paterno:
  *           type: string
  *           description: apellido paterno del empleado
+ *           example: Diaz
  *         ap_materno:
  *           type: string
  *           description: apellido materno  del empleado
+ *           example: Del Angel
  *         edad:
  *           type: string
  *           description: edad del empleado
+ *           example: 22
  *         domicilio:
  *           type: string
  *           description: domicilio del empleado
+ *           example: 4212 Perl Std
  *         ciudad:
  *           type: string
  *           description: ciudad del empleado
+ *           example: Nuevo Laredo
  *         estado:
  *           type: string
  *           description: estado del empleado
+ *           example: Tamaulipas
  *         codigo_postal:
  *           type: string
  *           description: codigo postal del empleado
+ *           example: 88000 
  *         correo:
  *           type: string
  *           description: correo del empleado
+ *           example: jordandelangel.d@gmail.com
  *         curp:
  *           type: string
  *           description: curp del empleado
+ *           example: DIAJ000630ADJQW
  *         rfc:
  *           type: string
  *           description: rfc del empleado
+ *           example: DASINFASIUWQ
+ *     empleadoUpdate: 
+ *       type: object
+ *       properties:
+ *         ap_paterno:
+ *           type: string
+ *           description: apellido paterno del empleado
+ *           example: Diaz
+ *         ap_materno:
+ *           type: string
+ *           description: apellido materno  del empleado
+ *           example: Del Angel
+ *         edad:
+ *           type: string
+ *           description: edad del empleado
+ *           example: 22
+ *         domicilio:
+ *           type: string
+ *           description: domicilio del empleado
+ *           example: 4212 Perl Std
+ *         ciudad:
+ *           type: string
+ *           description: ciudad del empleado
+ *           example: Nuevo Laredo
+ *         estado:
+ *           type: string
+ *           description: estado del empleado
+ *           example: Tamaulipas
+ *         codigo_postal:
+ *           type: string
+ *           description: codigo postal del empleado
+ *           example: 88000 
+ *         correo:
+ *           type: string
+ *           description: correo del empleado
+ *           example: jordandelangel.d@gmail.com
+ *         curp:
+ *           type: string
+ *           description: curp del empleado
+ *           example: DIAJ000630ADJQW
+ *         rfc:
+ *           type: string
+ *           description: rfc del empleado
+ *           example: DASINFASIUWQ 
  */
 
 
@@ -103,6 +157,12 @@ app.use(cors())
  *    responses:
  *      200:
  *        description: Devuelve todos los empleados de la base de datos en un json
+ *        content:
+ *         application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/empleado'
  */
 app.get('/empleados/',async(req,res)=>{
 
@@ -119,7 +179,7 @@ app.get('/empleados/',async(req,res)=>{
  *  get:
  *    tags:
  *      - empleado
- *    summary: Busca un empleado por nombre
+ *    summary: Buscar un empleado por nombre
  *    description: Petición Get
  *    parameters:
  *      - in: path
@@ -148,7 +208,7 @@ app.get('/empleados/:nombre',async(req,res)=>{
 
  /**
  * @swagger
- * /id:
+ * /empleados:
  *   post:
  *     tags:
  *       - empleado
@@ -168,7 +228,7 @@ app.post('/empleados',async(req,res)=>{
    
     const connection = await mysql.createConnection({host:'localhost', user: 'root', password: '1234',database: 'proyectoweb'});
     const {nombre,ap_paterno,ap_materno,edad,domicilio,ciudad,estado,codigo_postal,correo,curp,rfc} = req.body
-    let query = `insert into empleados values ('${nombre}', '${ap_paterno}', '${ap_materno}', '${edad}', '${domicilio}', '${ciudad}',' ${estado}', '${codigo_postal}', '${correo}', '${curp}', '${rfc}')`
+    let query = `insert into empleados values ('${nombre}', '${ap_paterno}', '${ap_materno}', '${edad}', '${domicilio}', '${ciudad}',' ${estado}', '${codigo_postal}', '${correo}', '${curp}', '${rfc}','','')`
     
     const[rows, fields] = await connection.execute(query)
     rows.affectedRows==1 ?  res.status(200).send('Empleado insertado con éxito!') : res.status(500).send('Ocurrió un error en el servidor')
@@ -183,12 +243,17 @@ app.post('/empleados',async(req,res)=>{
  *      - empleado
  *    summary: Actualizar empleado
  *    description: Peticion de tipo put a la ruta de empleados
+ *    parameters:
+ *      - in: path
+ *        name: nombre
+ *        description: nombre del usuario a actualizar
+ *        required: true
  *    requestBody:
  *       description: Actualiza los datos de un empleado
  *       content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/empleado'
+ *               $ref: '#/components/schemas/empleadoUpdate'
  *       required: true
  *    responses:
  *      200:
@@ -209,7 +274,7 @@ app.put('/empleados/:nombre',async(req,res)=>{
  *   delete:
  *     tags:
  *       - empleado
- *     summary: Se borra un empleado
+ *     summary: borrar un empleado
  *     description: Petición Delete a la ruta de Empleados para borrar un empleado por medio de un nombre.
  *     parameters:
  *       - name: nombre
