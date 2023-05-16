@@ -121,6 +121,13 @@ let redocTheme_objeto = JSON.parse(apidef_string)
  *           type: string
  *           description: rfc del empleado
  *           example: DASINFASIUWQ 
+ *     ResponseMessage: 
+ *       type: object
+ *       properties:
+ *         message:
+ *           type: string
+ *           description: mensaje de confirmacion
+ *           example: Empleado insertado con éxito!
  */
 
 
@@ -189,7 +196,12 @@ app.get('/empleados/',async(req,res)=>{
  *    responses:
  *      200:
  *        description: Regresa el empleado solicitado
- *        type: json
+ *        content:
+ *         application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/empleado'
  *      400:
  *        description: No se encontro el empleado
  */
@@ -223,6 +235,10 @@ app.get('/empleados/:nombre',async(req,res)=>{
  *     responses:
  *       200:
  *         description: Empleado insertado con éxito
+ *         content:
+ *          application/json:
+ *             schema:
+ *              $ref: '#/components/schemas/ResponseMessage'
  */
 app.post('/empleados',async(req,res)=>{
    
